@@ -1,0 +1,238 @@
+#include <iostream>
+#include <memory>
+using namespace std;
+
+int nok(int a, int b) //Наименьшее общее кратное
+{
+    if(a!=b)
+    {
+        int ma=max(a,b);
+        while((ma%a!=0)||(ma%b!=0)) ma++;
+        return ma;
+    }
+    else return a;
+}
+
+int nod(int a, int b) //Наибольший общий делитель
+{
+    if (a<0) a=a*(-1);
+    if(a!=b)
+    {
+        int mi=min(a,b);
+        while((a%mi!=0)||(b%mi!=0)) mi--;
+        return mi;
+    }
+    else return a;
+}
+
+class Drob
+{
+private:
+    int ch, zn;
+public:
+    Drob() : ch(0), zn(1) {}
+    Drob(int& a) : ch(a), zn(1) {}
+    Drob(int& a, int& b) : ch(a), zn(b) {}
+
+    friend std::istream& operator>>(std::istream& vvod, Drob& A)
+    {
+        char chertochka;
+        vvod >> A.ch >> chertochka >> A.zn;
+        if (chertochka != '/') std::cout << "Julik! Eto ne drob :(";
+        return vvod;
+    }
+
+    friend Drob operator+(Drob& A, Drob& B)
+    {
+        int NOK = nok(A.zn, B.zn);
+        Drob C;
+        C.ch = A.ch*(NOK/A.zn) + B.ch*(NOK/B.zn);
+        C.zn = NOK;
+        return C;
+    }
+
+    friend Drob operator*(Drob& A, Drob& B)
+    {
+        Drob C;
+        C.ch = A.ch * B.ch;
+        C.zn = A.zn * B.zn;
+        return C;
+    }
+
+    friend Drob operator-(Drob& A, Drob& B)
+    {
+        int NOK = nok(A.zn, B.zn);
+        Drob C;
+        C.ch = A.ch*(NOK/A.zn) - B.ch*(NOK/B.zn);
+        C.zn = NOK;
+        return C;
+    }
+
+    friend Drob operator/(Drob& A, Drob& B)
+    {
+        Drob C;
+        C.ch = A.ch * B.zn;
+        C.zn = A.zn * B.ch;
+        return C;
+    }
+
+    void operator-()
+    {
+        this->ch = this->ch * (-1);
+    }
+
+    void operator=(Drob& A)
+    {
+        this->ch = A.ch;
+        this->zn = A.zn;
+    }
+
+    void operator=(int& A)
+    {
+        this->ch = A;
+        this->zn = 1;
+    }
+
+    void operator+=(Drob& A)
+    {
+        int NOK = nok(this->zn, A.zn);
+        this->ch = this->ch * (NOK/ this->zn) + A.ch * (NOK/ A.zn);
+        this->zn = NOK;
+    }
+
+     void operator+=(int& A)
+    {
+        this->ch = this->ch + this->zn * A;
+    }
+
+    void operator-=(Drob& A)
+    {
+        int NOK = nok(this->zn, A.zn);
+        this->ch = this->ch * (NOK/ this->zn) - A.ch * (NOK/ A.zn);
+        this->zn = NOK;
+    }
+
+     void operator-=(int& A)
+    {
+        this->ch = this->ch - this->zn * A;
+    }
+
+    void operator*=(Drob& A)
+    {
+        this->ch = this->ch * A.ch;
+        this->zn = this->zn * A.zn;
+    }
+
+     void operator*=(int& A)
+    {
+        this->ch = this->ch * A;
+    }
+
+    void operator/=(Drob& A)
+    {
+        this->ch = this->ch * A.zn;
+        this->zn = this->zn * A.ch;
+    }
+
+     void operator/=(int& A)
+    {
+        this->zn = this->zn * A;
+    }
+
+    friend Drob operator+(Drob& A, int& B)
+    {
+        A.ch = A.ch + A.zn*B;
+        return A;
+    }
+
+    friend Drob operator*(Drob& A, int& B)
+    {
+        A.ch = A.ch * B;
+        return A;
+    }
+
+    friend Drob operator-(Drob& A, int& B)
+    {
+        A.ch = A.ch - A.zn*B;
+        return A;
+    }
+
+    friend Drob operator/(Drob& A, int& B)
+    {
+        A.zn = A.zn * B;
+        return A;
+    }
+
+    operator double const()
+    {
+        double a;
+        a = double(this->ch) / this->zn;
+        return a;
+    }
+
+    friend std::ostream& operator<<(std::ostream& vivod,const Drob& A)
+    {
+        if (A.ch!=0 && A.zn!=1)
+        {
+            int NOD = nod(A.ch, A.zn);
+            Drob C;
+            C.ch = A.ch / NOD;
+            C.zn = A.zn / NOD;
+            if ( C.zn == 1)  vivod << C.ch;
+            else vivod << C.ch << '/' << C.zn;
+        }
+        else
+        {
+            if (A.ch==0) vivod << 0;
+            else vivod << A.ch;
+        }
+        return vivod;
+    }
+};
+
+int main()
+{
+    Drob a;
+    Drob b;
+    int c;
+
+    std::cin >> a >> b >> c;
+
+    std::cout << a + b << std::endl;
+    std::cout << a * b << std::endl;
+    std::cout << a - b << std::endl;
+    std::cout << a / b << std::endl;
+
+    std::cout << a + c << std::endl;
+    std::cout << a * c << std::endl;
+    std::cout << a - c << std::endl;
+    std::cout << a / c << std::endl;
+    std::cout << double(a) << std::endl;
+
+    //Комментарии ниже стоят, потому что все вместе считать тяжко
+
+/*  a = b;
+    std::cout << a << std::endl;
+    a = c;
+    std::cout << a << std::endl;
+
+    a += b;
+    std::cout << a << std::endl;
+    a += c;
+    std::cout << a << std::endl;
+*/
+    a -= b;
+    std::cout << a << std::endl;
+    a -= c;
+    std::cout << a << std::endl;
+
+ /*   a *= b;
+    std::cout << a << std::endl;
+    a *= c;
+    std::cout << a << std::endl;
+
+    a /= b;
+    std::cout << a << std::endl;
+    a /= c;
+    std::cout << a << std::endl;*/
+}
