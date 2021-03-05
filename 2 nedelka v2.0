@@ -81,7 +81,7 @@ public:
         this->ch = this->ch * (-1);
     }
 
-    void operator=(Drob& A)
+    void operator=(const Drob& A)
     {
         this->ch = A.ch;
         this->zn = A.zn;
