@@ -1,0 +1,139 @@
+#include <iostream>
+#include <cmath>
+
+class Figure{
+public:
+    Figure(){}
+    virtual double perimeter() const = 0;
+    virtual double square() const = 0;
+    virtual unsigned int angles_amount() const = 0;
+};
+//квадрат
+class Square : public Figure {
+public:
+    Square(double& x) : a(x){}
+    double perimeter() const override {
+        return a*4;
+    }
+    double square() const override {
+        return a*a;
+    }
+    unsigned int angles_amount() const override {
+        return 4;
+    }
+private:
+    double a;
+};
+//прямоугольник
+class Rectangle : public Figure {
+public:
+    Rectangle(double& x, double& y) : a(x), b(y) {}
+    double perimeter() const override {
+        return (a+b)*2;
+    }
+    double square() const override {
+        return a*b;
+    }
+    unsigned int angles_amount() const override {
+        return 4;
+    }
+private:
+    double a, b;
+};
+//треугольник
+class Triangle : public Figure {
+public:
+    Triangle(double& x, double& y, double& z) : a(x), b(y), c(z) {}
+    double perimeter() const override {
+        return a+b+c;
+    }
+    double square() const override {
+        double p = (a+b+c)/2;
+        return sqrt(p*(p-a)*(p-b)*(p-c));
+    }
+    unsigned int angles_amount() const override {
+        return 3;
+    }
+private:
+    double a, b, c;
+};
+//круг
+class Circle : public Figure {
+public:
+    Circle(double& x) : a(x) {}
+    double perimeter() const override {
+        return 2*pi*a;
+    }
+    double square() const override {
+        return pi*a*a;
+    }
+    unsigned int angles_amount() const override {
+        return 0;
+    }
+private:
+    double a;
+    double const pi = acos(-1);
+};
+//эллипс
+class Ellipse : public Figure {
+public:
+    Ellipse(double& x, double& y) : a(x), b(y) {}
+    double perimeter() const override {
+        return 2*pi*sqrt((a*a + b*b)/2);
+    }
+    double square() const override {
+        return pi*a*b;
+    }
+    unsigned int angles_amount() const override {
+        return 0;
+    }
+private:
+    double a, b;
+    double const pi = acos(-1);
+};
+double perimeter(Figure* x) {
+    return x->perimeter();
+}
+double square(Figure* x) {
+    return x->square();
+}
+unsigned int angles_amount(Figure* x) {
+    return x->angles_amount();
+}
+
+int main(){
+    double ex=3, ey=5;
+    Figure* a = new Ellipse(ex, ey);
+    std::cout << " Ellipse a=3, b=5" << std::endl;
+    std::cout << perimeter(a) << " " << square(a) << " " << angles_amount(a) << std::endl;
+    std::cout << std::endl;
+    delete a;
+
+    double cx=5;
+    Figure* b = new Circle(cx);
+    std::cout << " Circle a=5" << std::endl;
+    std::cout << perimeter(b) << " " << square(b) << " " << angles_amount(b) << std::endl;
+    std::cout << std::endl;
+    delete b;
+
+    double tx=3, ty=4, tz=5;
+    Figure* c = new Triangle(tx, ty, tz);
+    std::cout << " Triangle a=3, b=4, c=5" << std::endl;
+    std::cout << perimeter(c) << " " << square(c) << " " << angles_amount(c) << std::endl;
+    std::cout << std::endl;
+    delete c;
+
+    double rx=3, ry=4;
+    Figure* d = new Rectangle(rx, ry);
+    std::cout << " Rectangle a=3, b=4" << std::endl;
+    std::cout << perimeter(d) << " " << square(d) << " " << angles_amount(d) << std::endl;
+    std::cout << std::endl;
+    delete d;
+
+    double sx=3;
+    Figure* e = new Square(sx);
+    std::cout << " Square a=7" << std::endl;
+    std::cout << perimeter(e) << " " << square(e) << " " << angles_amount(e) << std::endl;
+    std::cout << std::endl;
+    delete e;
+}
