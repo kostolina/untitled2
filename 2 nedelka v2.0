@@ -1,5 +1,5 @@
 #include <iostream>
-#include <memory>
+
 using namespace std;
 
 int nok(int a, int b) //Наименьшее общее кратное
@@ -42,7 +42,7 @@ public:
         return vvod;
     }
 
-    friend Drob operator+(Drob& A, Drob& B)
+    friend Drob operator+(const Drob& A, const Drob& B)
     {
         int NOK = nok(A.zn, B.zn);
         Drob C;
@@ -51,7 +51,7 @@ public:
         return C;
     }
 
-    friend Drob operator*(Drob& A, Drob& B)
+    friend Drob operator*(const Drob& A, const Drob& B)
     {
         Drob C;
         C.ch = A.ch * B.ch;
@@ -59,7 +59,7 @@ public:
         return C;
     }
 
-    friend Drob operator-(Drob& A, Drob& B)
+    friend Drob operator-(const Drob& A, const Drob& B)
     {
         int NOK = nok(A.zn, B.zn);
         Drob C;
@@ -68,7 +68,7 @@ public:
         return C;
     }
 
-    friend Drob operator/(Drob& A, Drob& B)
+    friend Drob operator/(const Drob& A, const Drob& B)
     {
         Drob C;
         C.ch = A.ch * B.zn;
@@ -87,77 +87,77 @@ public:
         this->zn = A.zn;
     }
 
-    void operator=(int& A)
+    void operator=(const int& A)
     {
         this->ch = A;
         this->zn = 1;
     }
 
-    void operator+=(Drob& A)
+    void operator+=(const Drob& A)
     {
         int NOK = nok(this->zn, A.zn);
         this->ch = this->ch * (NOK/ this->zn) + A.ch * (NOK/ A.zn);
         this->zn = NOK;
     }
 
-     void operator+=(int& A)
+     void operator+=(const int& A)
     {
         this->ch = this->ch + this->zn * A;
     }
 
-    void operator-=(Drob& A)
+    void operator-=(const Drob& A)
     {
         int NOK = nok(this->zn, A.zn);
         this->ch = this->ch * (NOK/ this->zn) - A.ch * (NOK/ A.zn);
         this->zn = NOK;
     }
 
-     void operator-=(int& A)
+     void operator-=(const int& A)
     {
         this->ch = this->ch - this->zn * A;
     }
 
-    void operator*=(Drob& A)
+    void operator*=(const Drob& A)
     {
         this->ch = this->ch * A.ch;
         this->zn = this->zn * A.zn;
     }
 
-     void operator*=(int& A)
+     void operator*=(const int& A)
     {
         this->ch = this->ch * A;
     }
 
-    void operator/=(Drob& A)
+    void operator/=(const Drob& A)
     {
         this->ch = this->ch * A.zn;
         this->zn = this->zn * A.ch;
     }
 
-     void operator/=(int& A)
+     void operator/=(const int& A)
     {
         this->zn = this->zn * A;
     }
 
-    friend Drob operator+(Drob& A, int& B)
+    friend Drob operator+(Drob& A, const int& B)
     {
         A.ch = A.ch + A.zn*B;
         return A;
     }
 
-    friend Drob operator*(Drob& A, int& B)
+    friend Drob operator*(Drob& A, const int& B)
     {
         A.ch = A.ch * B;
         return A;
     }
 
-    friend Drob operator-(Drob& A, int& B)
+    friend Drob operator-(Drob& A, const int& B)
     {
         A.ch = A.ch - A.zn*B;
         return A;
     }
 
-    friend Drob operator/(Drob& A, int& B)
+    friend Drob operator/(Drob& A, const int& B)
     {
         A.zn = A.zn * B;
         return A;
