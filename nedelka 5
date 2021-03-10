@@ -34,17 +34,17 @@ int main()
 
         if(word.find('c') != std::string::npos) {
             word[word.find('c')] = 'C';
-            fhavec << word << " ";
+            fhavec << word << "_";
             std::cout << word << " Have c" << std::endl;
         }
 
         else {
             if (word.length() % 2 == 0) {
-                fncch << word << " ";
+                fncch << word << "_";
                 std::cout << word << " " << word.length() << " Don't have c chet" << std::endl;
             }
             else {
-                fncnch << word << " ";
+                fncnch << word << "_";
                 std::cout << word << " " << word.length() << " Don't have c nechet" << std::endl;
             }
         }
