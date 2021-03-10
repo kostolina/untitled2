@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <direct.h>
+
+int main()
+{
+    std::ifstream filein;
+    std::string name = "C:\\Users\\kiraa\\OneDrive\\smert.txt";
+    filein.open(name);
+
+    _mkdir("C:\\Users\\kiraa\\OneDrive\\Processed");
+
+    std::ofstream fhavec;
+    std::string havec = "C:\\Users\\kiraa\\OneDrive\\Processed\\c.txt";
+
+    std::ofstream fncch;
+    std::string ncch = "C:\\Users\\kiraa\\OneDrive\\Processed\\even.txt";
+
+    std::ofstream fncnch;
+    std::string ncnch = "C:\\Users\\kiraa\\OneDrive\\Processed\\odd.txt";
+    fhavec.open(havec);
+    fncch.open(ncch);
+    fncnch.open(ncnch);
+
+    for (;filein;)
+    {
+        std::string word;
+        filein >> word;
+
+        for (int k=0; k < word.length(); k++) {
+            word[k] = tolower(word[k]);
+        }
+
+        if(word.find('c') != std::string::npos) {
+            word[word.find('c')] = 'C';
+            fhavec << word << " ";
+            std::cout << word << " Have c" << std::endl;
+        }
+
+        else {
+            if (word.length() % 2 == 0) {
+                fncch << word << " ";
+                std::cout << word << " " << word.length() << " Don't have c chet" << std::endl;
+            }
+            else {
+                fncnch << word << " ";
+                std::cout << word << " " << word.length() << " Don't have c nechet" << std::endl;
+            }
+        }
+    }
+    fhavec.close();
+    fncch.close();
+    fncnch.close();
+}
