@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+
+/* Реализуйте шаблонный функциональный объект, вычисляющий факториал с кэшированием результатов
+ (это означает, что если ранее факториал от некоторого числа был уже найден, то он должен быть
+ немедленно возвращён из этого объекта, и никаких вычислений производиться не должно).
+*/
+
+class fact
+{
+public:
+    void operator ()(int a)
+    {
+        if ( a >= size) {
+            std::cout << "Schitaem" << std::endl;
+            for (int k = size; k < a + 1; k++) {
+                size++;
+                vect.push_back(vect[k - 1] * k);
+            }
+            std::cout << a << "! = " << vect[a] << std::endl << std::endl;
+
+        }
+        else {
+            std::cout << "Mi panki niche ne schitaem" << std::endl;
+            std::cout << a << "! = " << vect[a] << std::endl << std::endl;
+        }
+    }
+private:
+    int size = 2;
+    std::vector <int> vect = {1, 1};
+};
+
+int main()
+{
+    std::cout << "Sozdali A" << std::endl;
+    fact A;
+    A(0);
+    A(1);
+    A(4);
+    A(5);
+    A(3);
+    A(2);
+    std::cout << "Sozdali B" << std::endl;
+    fact B;
+    B(4);
+    B(6);
+    B(3);
+}
