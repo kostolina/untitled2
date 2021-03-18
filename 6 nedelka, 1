@@ -1,0 +1,4 @@
+template <typename Func, typename... Args>
+void our_function(Func (*func) (Args...), Args... args) {
+    (*func) (args...) ;
+}
