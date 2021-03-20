@@ -1,0 +1,69 @@
+#include <iostream>
+#include <deque>
+#include <algorithm>
+#include <numeric>
+#include <random>
+#include <chrono>
+
+int main()
+{
+    //Создайте std::deque, заполнив её числами от 1 до 10 по возрастанию.
+    std::deque <int> deq(10);
+    std::iota (std::begin(deq), std::end(deq), 1);
+
+    // Добавьте в начало ещё несколько случайных чисел (в том же диапазоне).
+    std::uniform_int_distribution d(1, 10);
+    std::default_random_engine e(std::chrono::steady_clock::now().time_since_epoch().count());
+    deq.push_front(d(e));
+    deq.push_front(d(e));
+    deq.push_front(d(e));
+
+    //Скопируйте все данные в пустой std::vector.
+    std::vector <int> vect;
+    vect.resize(deq.size());
+    std::copy(std::begin(deq), std::end(deq), std::begin(vect));
+
+    //Отсортируйте его по убыванию.
+    std::sort(std::begin(vect), std::end(vect), std::greater<>());
+
+    //Перемешайте элементы deque случайным образом.
+    std::shuffle(std::begin(deq), std::end(deq), e);
+
+    //Вычислите скалярное произведение vector-а и deque.
+    int vxd = std::inner_product(std::begin(vect), std::end(vect), std::begin(deq), 0);
+
+    //Определите количество чисел, больших 4, в любом из контейнеров.
+    int count4v = count_if(std::begin(vect), std::end(vect), [](auto x){return x>4;});
+    int count4d = count_if(std::begin(deq), std::end(deq), [](auto x){return x>4;});
+
+    //Найдите сумму элементов vector-а.
+    auto vectsum = std::accumulate(std::begin(vect), std::end(vect), 0);
+
+    //Найдите произведение элементов deque.
+    auto deqprod = std::accumulate(std::begin(deq), std::end(deq), 1, [](auto x, auto y){return x * y;});
+
+    //Удалите из vector все чётные числа, большие 3.
+    auto vec3 = std::remove_if(std::begin(vect), std::end(vect), [](auto x){ return ((x>3)&&(x%2 == 0))? 1 : 0;});
+    vect.erase(vec3, std::end(vect));
+
+    //Удалите из deque все четвёрки.
+    auto deq4 = std::remove(std::begin(deq), std::end(deq), 4);
+    deq.erase(deq4, std::end(deq));
+
+    //Выведите vector в консоль с помощью цикла for через итераторы.
+    for(auto i = std::begin(vect); i< std::end(vect); i++) std::cout << *i << ' ';
+    std::cout << std::endl;
+
+    //Выведите deque в консоль с помощью алгоритма for_each.
+    std::for_each(std::begin(deq), std::end(deq), [](auto x){ std::cout << x << ' '; });
+    std::cout << std::endl;
+
+    //Определите минимальный и максимальный элементы в этих контейнерах.
+    auto minmaxv = std::minmax_element(std::begin(vect), std::end(vect));
+    int minvect = *(minmaxv.first);
+    int maxvect = *(minmaxv.second);
+
+    auto minmaxd = std::minmax_element(std::begin(deq), std::end(deq));
+    int mindeq = *(minmaxd.first);
+    int maxdeq = *(minmaxd.second);
+}
