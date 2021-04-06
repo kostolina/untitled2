@@ -1,0 +1,66 @@
+#include <iostream>
+#include <map>
+#include <set>
+#include <algorithm>
+
+class Students{
+public:
+    //insert — добавить студента и его баллы в систему.
+    void insert(std::string imya, int ball){
+        stud.insert({imya, ball});
+        set.insert(ball);
+    }
+    // find — определить количество баллов студента по ФИО. Если студента с такими ФИО нет в базе, выбросить исключение std::invalid_argument.
+    void find(std::string imya){
+        if ( stud.find(imya) == stud.end()){
+            throw std::invalid_argument("Nu ti sho? Netu u nas takogo :(");
+        }
+        else std::cout << imya << " poluchil " << stud[imya] << std::endl;
+    }
+    // list_students — вывести студентов и баллы в алфавитном порядке.
+    void list_students(){
+        for (auto i : stud) std::cout << i.first << ' ' << i.second << std::endl;
+    }
+    // range — получить всех студентов, баллы которых равны некоторому значению.
+    void range(int znach){
+        for( auto i : stud) {
+            if (i.second == znach) std::cout << znach << " ballov u " << i.first << std::endl;
+        }
+    }
+    // standings — Вывести баллы и студентов по убыванию баллов.
+    void standings(){
+        auto max = set.end()--;
+        while (max != set.begin()){
+            for( auto i : stud ) {
+                if (i.second == *max) std::cout << i.first << ' ' << i.second << std::endl;
+            }
+            max--;
+        }
+    }
+private:
+    std::map<std::string, int> stud;
+    std::set<int> set = {0};
+};
+int main() {
+    Students a;
+    a.insert("Egor Popov", 12);
+    a.insert("Anton Ivanin", 45);
+    a.insert("Maria Kastolina", 33);
+    a.insert("Timur Vasilev", 50);
+    a.insert("Gleb Schelik", 28);
+
+    a.find("Anton Ivanin");
+    std::cout << std::endl;
+    a.find("Gleb Schelik");
+    std::cout << std::endl;
+
+    a.range(50);
+    std::cout << std::endl;
+    a.range(12);
+    std::cout << std::endl;
+
+    a.list_students();
+    std::cout << std::endl;
+
+    a.standings();
+}
