@@ -1,45 +1,38 @@
 #include <iostream>
 #include <map>
-#include <set>
 #include <algorithm>
 
 class Students{
 public:
     //insert — добавить студента и его баллы в систему.
-    void insert(std::string imya, int ball){
-        stud.insert({imya, ball});
-        set.insert(ball);
+    void insert(const std::string &imya, int ball){
+        studA.insert({imya, ball});
+        stud1.insert({ball, imya});
     }
     // find — определить количество баллов студента по ФИО. Если студента с такими ФИО нет в базе, выбросить исключение std::invalid_argument.
-    void find(std::string imya){
-        if ( stud.find(imya) == stud.end()){
+    void find(const std::string &imya){
+        if ( studA.find(imya) == studA.end()){
             throw std::invalid_argument("Nu ti sho? Netu u nas takogo :(");
         }
-        else std::cout << imya << " poluchil " << stud[imya] << std::endl;
+        else std::cout << imya << " poluchil " << studA[imya] << std::endl;
     }
     // list_students — вывести студентов и баллы в алфавитном порядке.
     void list_students(){
-        for (auto i : stud) std::cout << i.first << ' ' << i.second << std::endl;
+        for (const auto &i : studA) std::cout << i.first << ' ' << i.second << std::endl;
     }
     // range — получить всех студентов, баллы которых равны некоторому значению.
     void range(int znach){
-        for( auto i : stud) {
+        for( const auto &i : studA) {
             if (i.second == znach) std::cout << znach << " ballov u " << i.first << std::endl;
         }
     }
     // standings — Вывести баллы и студентов по убыванию баллов.
     void standings(){
-        auto max = set.end()--;
-        while (max != set.begin()){
-            for( auto i : stud ) {
-                if (i.second == *max) std::cout << i.first << ' ' << i.second << std::endl;
-            }
-            max--;
-        }
+        for (const auto &i : stud1) std::cout << i.second << ' ' << i.first << std::endl;
     }
 private:
-    std::map<std::string, int> stud;
-    std::set<int> set = {0};
+    std::map<std::string, int> studA;
+    std::multimap<int, std::string, std::greater<>> stud1;
 };
 int main() {
     Students a;
